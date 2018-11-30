@@ -1,3 +1,4 @@
+import { ProductService } from './product.service';
 import { AdminAuthGuard } from './admin-auth-guard.service';
 import { AuthGuard } from './auth-guard.service';
 import { AuthService } from './auth.service';
@@ -8,6 +9,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFireModule} from '@angular/fire';
 import { AngularFireAuthModule} from 'angularfire2/auth';
+import {FormsModule} from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +47,8 @@ import { CategoryService } from './category.service';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    CustomFormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -57,9 +62,10 @@ import { CategoryService } from './category.service';
 
       {path:'check-out' ,component:CheckOutComponent,canActivate:[AuthGuard]},
       {path:'order-success' ,component:OrderSuccessComponent,canActivate:[AuthGuard]},
-      {path:'admin/products' ,component:AdminProductsComponent,canActivate:[AuthGuard]},
+      
       {path:'admin/products/new' ,component:ProductFormComponent,canActivate:[AuthGuard]},
-
+      {path:'admin/products/:id' ,component:ProductFormComponent,canActivate:[AuthGuard]},
+      {path:'admin/products' ,component:AdminProductsComponent,canActivate:[AuthGuard]},
       {path:'admin/orders' ,component:AdminOrdersComponent,canActivate:[AuthGuard,AdminAuthGuard]},
       {path:'my/orders' ,component:MyOrdersComponent,canActivate:[AuthGuard,AdminAuthGuard]}
       
@@ -71,7 +77,8 @@ import { CategoryService } from './category.service';
     AuthGuard,
     AdminAuthGuard,
     UserService,
-    CategoryService
+    CategoryService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
